@@ -1,28 +1,17 @@
 # CarCode
-
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/car_code`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+    Allows you to look up the definition of vehicle OBD-II PIDs (On-board diagnostics Parameter IDs) codes.
+    You can also drill down for addtional information on a specific code.
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'car_code'
-```
-
-And then execute:
-
-    $ bundle install
-
-Or install it yourself as:
-
-    $ gem install car_code
+require 'net/http'
+require 'open-uri'
+require 'json'
+require 'tty-prompt'    
 
 ## Usage
 
-TODO: Write usage instructions here
+Enter bin/car-code to run.
 
 ## Development
 
@@ -32,7 +21,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/car_code. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/car_code/blob/master/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on GitHub at https://github.com/[CraigSmith789]/car_code. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/car_code/blob/master/CODE_OF_CONDUCT.md).
 
 
 ## License

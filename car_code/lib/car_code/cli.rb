@@ -1,32 +1,25 @@
-require 'pry'
-require 'tty-prompt'
-require_relative 'code.rb'
-require_relative 'api.rb'
-prompt = TTY::Prompt.new
 class CLI 
-    @@code_class= 0 
-    def call
-        @@code_class = Code.new                           
-        start                
+     
+    def call                                   
+        CLI.start                
     end
 
-    def start
+    def self.start
         prompt = TTY::Prompt.new
         5.times{puts" "}
         puts "             WELCOME TO CAR CODES"
         puts"            ======================"
         puts" " 
-        puts"You can enter a specific car diagnostic code for information."
+        puts"OBD-II PIDs (On-board diagnostics Parameter IDs) are codes used to request data from a vehicle, used as a diagnostic tool."
         puts" "
-        puts"See information on a random code."
+        puts"Please select one of the options below to see information on a specific code."
         puts" "
-        puts"Exit."
+        puts"Or, select Random Code to see information on a random OBD code!."
         puts" "
         main_select = prompt.select("Please choose your option:", ["Enter a code", "Random code", "Exit"])
         if main_select == "Enter a code"
             enter_code
-        elsif main_select == "Random code"
-            puts"You entered 2, taking you to random Method" #placeholder
+        elsif main_select == "Random code"            
             choose_random 
         else main_select == "Exit"
             5.times{puts" "}
@@ -37,41 +30,50 @@ class CLI
         end      
     end    
  
-    def enter_code
+    def self.enter_code
         prompt = TTY::Prompt.new
         puts "Please enter a valid 5 character diagnostic code (ex. P0001)."
         puts" "
-        # input = gets.strip.upcase
-        input = prompt.ask("Please enter your code:")
-            
-        puts input
-        new_code=Api.fetch_codes(input)      
-        Code.add_code(new_code) 
-        puts"Here is the information for CODE"
-        puts"Enter i for more information, or m for main menu"
-        # input = gets.strip.downcase
-        more_info = prompt.select("Please chose your option:", ["Additional information on this code","Return to Main Menu"])
-        if more_info == "Return to Main Menu"
-            start 
-        else more_info == "Additional information on this code"
-            puts"Here is your addidtional information."
-            after_info = prompt.select("Please chose your option:", ["Return to Main Menu", "Exit"])
-            # input = gets.strip.downcase
-                if after_info == "Return to Main Menu" 
-                    start 
-                else after_info == "Exit"
-                    exit 
-                
-                end
-            end        
-        end
-    def choose_random 
+        input = prompt.ask("Please enter your code:") 
+        input = "#{input}".upcase  
+        puts"#{input}"
+        Code.dupe_check(input)  
+        
+    end           
+              
+                  
+    
+    def self.choose_random            
             rando = "P000" + "#{rand(1..9)}"
-            new_code=Api.fetch_codes(rando)      
-            Code.add_code(new_code) 
+            Code.dupe_check(rando)                
+            # Code.add_code(rando) 
     end
 
-
+    def self.display_code_info(hash)
+        prompt = TTY::Prompt.new
+        code_array = hash.to_a
+        2.times{puts" "}
+        puts"Here is your information for #{code_array[0][0].capitalize} #{code_array[0][1]}:"
+        puts" "
+        puts"#{code_array[0][0].upcase} #{code_array[0][1]}"
+        puts"#{code_array[1][0].upcase}: #{code_array[1][1]}"
+        puts" "
+        more_info = prompt.select("Please chose your option:", ["See possible causes for #{code_array[0][0].capitalize} #{code_array[0][1]}? ","Return to Main Menu"])
+        if more_info == "Return to Main Menu"
+            CLI.start 
+        else more_info == "Additional information on this code"
+            2.times{puts" "}
+            puts"Possible causes for #{code_array[0][0].capitalize} #{code_array[0][1]} (#{code_array[1][1]}) are:"
+            puts"#{code_array[2][1].join(".  ")}."
+            puts" "
+            after_info = prompt.select("Please choose an option:", ["Return to Main Menu", "Exit"])
+                if after_info == "Return to Main Menu" 
+                    CLI.start
+                else after_info == "Exit"
+                    exit 
+                end            
+        end 
+    end
 end    
 
 
