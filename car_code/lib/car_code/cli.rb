@@ -35,18 +35,20 @@ class CLI
         puts "Please enter a valid 5 character diagnostic code (ex. P0001)."
         puts" "
         input = prompt.ask("Please enter your code:") 
-        input = "#{input}".upcase  
-        puts"#{input}"
-        Code.dupe_check(input)  
-        
+        input = "#{input}".upcase
+            if input[0].chr == ("P" or "B" or "C" or "U") && input.length == 5 && input =~/\D\d\d\d\d/ 
+                Code.dupe_check(input)
+            else self.enter_code 
+            end            
+                                    
     end           
-              
+            
                   
     
     def self.choose_random            
             rando = "P000" + "#{rand(1..9)}"
             Code.dupe_check(rando)                
-            # Code.add_code(rando) 
+          
     end
 
     def self.display_code_info(hash)
