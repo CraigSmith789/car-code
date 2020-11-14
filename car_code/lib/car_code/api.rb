@@ -1,6 +1,9 @@
+
+require_relative 'code_store'
 class Api
 
-    def self.fetch_codes(input)                      
+    def self.fetch_codes(input)
+            puts"FETCHING!"                      
             urlf = "https://car-code.p.rapidapi.com/obd2/"
             urlf<<(input)
             url = URI(urlf)
@@ -14,9 +17,8 @@ class Api
 
             response = http.request(request)
             response.read_body
-            result = JSON.parse(response.body)
-            Code.add_code(result) 
-            CLI.display_code_info(result)            
+            result = JSON.parse(response.body)                      
+            OBDCode.new(result)                       
 
                
     end   

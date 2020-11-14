@@ -1,3 +1,4 @@
+require_relative 'code_store'
 class CLI 
      
     def call                                   
@@ -37,7 +38,9 @@ class CLI
         input = prompt.ask("Please enter your code:") 
         input = "#{input}".upcase
             if input[0].chr == ("P" or "B" or "C" or "U") && input.length == 5 && input =~/\D\d\d\d\d/ 
-                Code.dupe_check(input)
+                disp_code = OBDCode.get_obdc(input)
+                display_code_info(disp_code)
+
             else self.enter_code 
             end            
                                     
@@ -47,27 +50,28 @@ class CLI
     
     def self.choose_random            
             rando = "P000" + "#{rand(1..9)}"
-            Code.dupe_check(rando)                
+            disp_code = OBDCode.get_obdc(rando)
+            display_code_info(disp_code)                
           
     end
 
-    def self.display_code_info(hash)
+    def self.display_code_info(disp_code)
         prompt = TTY::Prompt.new
-        code_array = hash.to_a
         2.times{puts" "}
-        puts"Here is your information for #{code_array[0][0].capitalize} #{code_array[0][1]}:"
+        puts"Here is your information for Code #{disp_code.code}:"
         puts" "
-        puts"#{code_array[0][0].upcase} #{code_array[0][1]}"
-        puts"#{code_array[1][0].upcase}: #{code_array[1][1]}"
+        puts"CODE #{disp_code.code}"
+        puts"DESCRIPTION: #{disp_code.definition}"
         puts" "
-        more_info = prompt.select("Please chose your option:", ["See possible causes for #{code_array[0][0].capitalize} #{code_array[0][1]}? ","Return to Main Menu"])
+        more_info = prompt.select("Please chose your option:", ["See possible causes for CODE #{disp_code.code}? ","Return to Main Menu"])
         if more_info == "Return to Main Menu"
             CLI.start 
         else more_info == "Additional information on this code"
             2.times{puts" "}
-            puts"Possible causes for #{code_array[0][0].capitalize} #{code_array[0][1]} (#{code_array[1][1]}) are:"
-            puts"#{code_array[2][1].join(".  ")}."
+            puts"Possible causes for Code (#{disp_code.code}) are:"
+            puts"#{disp_code.cause.join(", ")}."
             puts" "
+
             after_info = prompt.select("Please choose an option:", ["Return to Main Menu", "Exit"])
                 if after_info == "Return to Main Menu" 
                     CLI.start
