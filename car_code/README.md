@@ -7,7 +7,9 @@
 require 'net/http'
 require 'open-uri'
 require 'json'
-require 'tty-prompt'    
+require 'tty-prompt'
+
+NEED API KEY TO RUN.
 
 ## Usage
 

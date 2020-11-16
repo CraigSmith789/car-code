@@ -12,7 +12,7 @@ class Api
     http.verify_mode = OpenSSL::SSL::VERIFY_NONE
 
     request = Net::HTTP::Get.new(url)
-    request["x-rapidapi-key"] = '29c1eeb39bmsh6898a4de96ee189p1c02ffjsnd00fb9948bcb'
+    request["x-rapidapi-key"] = #/ WILL NEED A KEY TO RUN
     request["x-rapidapi-host"] = 'car-code.p.rapidapi.com'
 
     response = http.request(request)
